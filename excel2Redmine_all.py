@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import io
 import streamlit as st
+import openpyxl
 
 
 # Redmineの設定
