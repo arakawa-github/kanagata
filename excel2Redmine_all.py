@@ -91,7 +91,7 @@ for index, row in df.iterrows():
     hhh = row["送金依頼番号"] if pd.notna(row["送金依頼番号"]) else "未記入"
     data = {
         "issue": {
-            "project_id": projectID"k-sakai",  
+            "project_id": projectID",  
             "tracker_id": tracker_id,  
             "status_id": status_1,
             "priority_id": 2,
