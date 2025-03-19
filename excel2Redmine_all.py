@@ -1,21 +1,17 @@
 
 import requests
 import pandas as pd
+import io
 
 # Redmineの設定
 REDMINE_URL = "http://sys.asahigum.co.jp:81/redmine/"  # RedmineのURL
 API_KEY = "e946cdd15454fead657a3ca864206d15a2386c24"  # RedmineのAPIキー
 
-# Excelファイルの読み込み
-#excel_file = "堺25金型.xlsx"
-#df = pd.read_excel(excel_file)
-#   プロジェクト名の選択
-#projectID="k-sakai"
-
 import streamlit as st
-st.title("ファイルアップロードと選択")
+st.title("ファイルアップロードとプロジェクト名選択")
 # **ファイルアップローダー**
-excel_file = st.file_uploader("ファイルを選択してください", type=["xlsx"])
+excel_file_1 = st.file_uploader("ファイルを選択してください", type=["xlsx"])
+excel_file = io.BytesIO(excel_file_1.read())
 df = pd.read_excel(excel_file)
 # **リストから選択**
 options = ["本社", "つくば", "三重", "九州", "倉敷", "京都", "千葉", "土浦",
