@@ -16,35 +16,29 @@ st.title("ファイルアップロードと選択")
 # ファイルアップローダー
 excel_file_1 = st.file_uploader("ファイルを選択してください", type=["xlsx"])
 
-if excel_file_1 is not None:
-    try:
-        excel_file = io.BytesIO(excel_file_1.read())  
-        df = pd.read_excel(excel_file)
 
-        # **リストから選択**
-        options = ["本社", "つくば", "三重", "九州", "倉敷", "京都", "千葉", "土浦",
-                   "堺", "大阪", "宇都宮", "小山", "小松", "岡山", "新潟", "明石", 
-                   "松山","枚方", "滋賀", "相模原", "船橋", "長野"]
+excel_file = io.BytesIO(excel_file_1.read())  
+df = pd.read_excel(excel_file)
+
+# **リストから選択**
+options = ["本社", "つくば", "三重", "九州", "倉敷", "京都", "千葉", "土浦",
+           "堺", "大阪", "宇都宮", "小山", "小松", "岡山", "新潟", "明石", 
+           "松山","枚方", "滋賀", "相模原", "船橋", "長野"]
         
-        selected_eigyou = st.selectbox("担当プロジェクトを選択してください", options)
+selected_eigyou = st.selectbox("担当プロジェクトを選択してください", options)
 
-        project_mapping = {
-            "本社": "kanagata", "つくば": "tsukubax", "三重": "k-mie", "九州": "k-kyusyu",
-            "倉敷": "k-kurashiki", "京都": "k-kyouto", "千葉": "k-chiba", "土浦": "k-tsuchiura",
-            "堺": "k-sakai", "大阪": "k-oosaka", "宇都宮": "k-utsunomiya", "小山": "k-oyama",
-            "小松": "k-komatsu", "岡山": "k-okayama", "新潟": "k-niigata", "明石": "k-akashi",
-            "松山": "k-matsuyama", "枚方": "k-hirakata", "滋賀": "k-shiga", "相模原": "k-sagamihara",
-            "船橋": "k-funahashi", "長野": "k-nagano"
+project_mapping = {
+        "本社": "kanagata", "つくば": "tsukubax", "三重": "k-mie", "九州": "k-kyusyu",
+        "倉敷": "k-kurashiki", "京都": "k-kyouto", "千葉": "k-chiba", "土浦": "k-tsuchiura",
+        "堺": "k-sakai", "大阪": "k-oosaka", "宇都宮": "k-utsunomiya", "小山": "k-oyama",
+        "小松": "k-komatsu", "岡山": "k-okayama", "新潟": "k-niigata", "明石": "k-akashi",
+        "松山": "k-matsuyama", "枚方": "k-hirakata", "滋賀": "k-shiga", "相模原": "k-sagamihara",
+        "船橋": "k-funahashi", "長野": "k-nagano"
         }
         
-        projectID = project_mapping.get(selected_eigyou, "unknown")
+projectID = project_mapping.get(selected_eigyou, "unknown")
 
-        st.write(f"選択されたプロジェクト: {selected_eigyou} (ID: {projectID})")
-
-    except Exception as e:
-        st.error(f"ファイルの読み込み中にエラーが発生しました: {e}")
-else:
-    st.warning("ファイルをアップロードしてください。")
+st.write(f"選択されたプロジェクト: {selected_eigyou} (ID: {projectID})")
 
 # 必須フィールド（管理画面で確認する）
 REQUIRED_FIELDS = ["subject", "project_id", "tracker_id","円外貨","その他記載事項1（備考）","status","区分"]
