@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import io
 
+
 # Redmineの設定
 REDMINE_URL = "http://sys.asahigum.co.jp:81/redmine/"  # RedmineのURL
 API_KEY = "e946cdd15454fead657a3ca864206d15a2386c24"  # RedmineのAPIキー
