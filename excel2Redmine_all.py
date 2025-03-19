@@ -7,39 +7,36 @@ import io
 REDMINE_URL = "http://sys.asahigum.co.jp:81/redmine/"  # RedmineのURL
 API_KEY = "e946cdd15454fead657a3ca864206d15a2386c24"  # RedmineのAPIキー
 
-import streamlit as st
-st.title("ファイルアップロードとプロジェクト名選択")
+st.title("ファイルアップロードと選択")
+
 # **ファイルアップローダー**
 excel_file_1 = st.file_uploader("ファイルを選択してください", type=["xlsx"])
-excel_file = io.BytesIO(excel_file_1.read())
-df = pd.read_excel(excel_file)
-# **リストから選択**
-options = ["本社", "つくば", "三重", "九州", "倉敷", "京都", "千葉", "土浦",
-           "堺", "大阪", "宇都宮", "小山", "小松", "岡山", "新潟", "明石", 
-           "松山","枚方", "滋賀", "相模原", "船橋", "長野"]
-selected_eigyou = st.selectbox("担当プロジェクトを選択してください", options)
-if(selected_eigyou=="本社"):projectID = "kanagata"
-if(selected_eigyou=="つくば"):projectID = "tsukubax"
-if(selected_eigyou=="三重"):projectID = "k-mie"
-if(selected_eigyou=="九州"):projectID = "k-kyusyu"
-if(selected_eigyou=="倉敷"):projectID = "k-kyouto"
-if(selected_eigyou=="京都"):projectID = "k-kurashiki"
-if(selected_eigyou=="千葉"):projectID = "k-chiba"
-if(selected_eigyou=="土浦"):projectID = "k-tsuchiura"
-if(selected_eigyou=="堺"):projectID = "k-sakai"
-if(selected_eigyou=="大阪"):projectID = "k-oosaka"
-if(selected_eigyou=="宇都宮"):projectID = "k-utsunomiya"
-if(selected_eigyou=="小山"):projectID = "k-oyama"
-if(selected_eigyou=="小松"):projectID = "k-komatsu"
-if(selected_eigyou=="岡山"):projectID = "k-okayama"
-if(selected_eigyou=="新潟"):projectID = "k-niigata"
-if(selected_eigyou=="明石"):projectID = "k-akashi"
-if(selected_eigyou=="松山"):projectID = "k-matsuyama"
-if(selected_eigyou=="枚方"):projectID = "k-hirakata"
-if(selected_eigyou=="滋賀"):projectID = "k-shiga"
-if(selected_eigyou=="相模原"):projectID = "k-sagamihara"
-if(selected_eigyou=="船橋"):projectID = "k-funahashi"
-if(selected_eigyou=="長野"):projectID = "k-nagano"
+
+if excel_file_1 is not None:
+    excel_file = io.BytesIO(excel_file_1.read())  # Noneチェックを追加
+    df = pd.read_excel(excel_file)
+
+    # **リストから選択**
+    options = ["本社", "つくば", "三重", "九州", "倉敷", "京都", "千葉", "土浦",
+               "堺", "大阪", "宇都宮", "小山", "小松", "岡山", "新潟", "明石", 
+               "松山","枚方", "滋賀", "相模原", "船橋", "長野"]
+    
+    selected_eigyou = st.selectbox("担当プロジェクトを選択してください", options)
+
+    project_mapping = {
+        "本社": "kanagata", "つくば": "tsukubax", "三重": "k-mie", "九州": "k-kyusyu",
+        "倉敷": "k-kurashiki", "京都": "k-kyouto", "千葉": "k-chiba", "土浦": "k-tsuchiura",
+        "堺": "k-sakai", "大阪": "k-oosaka", "宇都宮": "k-utsunomiya", "小山": "k-oyama",
+        "小松": "k-komatsu", "岡山": "k-okayama", "新潟": "k-niigata", "明石": "k-akashi",
+        "松山": "k-matsuyama", "枚方": "k-hirakata", "滋賀": "k-shiga", "相模原": "k-sagamihara",
+        "船橋": "k-funahashi", "長野": "k-nagano"
+    }
+    
+    projectID = project_mapping.get(selected_eigyou, "unknown")
+
+    st.write(f"選択されたプロジェクト: {selected_eigyou} (ID: {projectID})")
+else:
+    st.warning("ファイルをアップロードしてください。")
 
 # 必須フィールド（管理画面で確認する）
 REQUIRED_FIELDS = ["subject", "project_id", "tracker_id","円外貨","その他記載事項1（備考）","status","区分"]
